@@ -1,4 +1,4 @@
-FROM FROM ghcr.io/nirmata/tomcat9-zulu-openjdk-alpine:17.30.15-jre
+FROM FROM 9.0.72-jdk11-temurin-jammy:latest
 
 USER root
 
