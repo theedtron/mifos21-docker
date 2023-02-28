@@ -1,0 +1,65 @@
+version: "3"
+
+services:  
+  mifos21-app-server:
+    build:
+        context: ./mifosplatform-21.07.02.PATCH_RELEASE
+        dockerfile: Dockerfile
+    container_name: mifos21-app-server
+    restart: always
+    ports:
+      - '8443:8443'
+    networks:
+      - mifos21-network
+    depends_on:
+      mifos21-db-server:
+        condition: service_healthy
+    healthcheck:
+      test: curl -kfsS https://127.0.0.1:8443 | grep 'Tomcat' | wc -l 
+      interval: 5s
+      retries: 20
+
+  mifos21-db-server:
+    build:
+        context: ./mysql
+        dockerfile: Dockerfile
+    container_name: mifos21-db-server
+    restart: always
+    ports:
+      - '3307:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: my5ql2021
+    healthcheck:
+      test:  mysqladmin --user=root --password=my5ql2021 ping -h localhost
+      interval: 5s
+      retries: 20
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - mifos21-network
+
+#phpmyadmin service
+  mifos21-phpmyadmin:
+    links:
+      - mifos21-db-server
+    image: phpmyadmin/phpmyadmin
+    container_name: mifos21-phpmyadmin
+    restart: unless-stopped
+    ports:
+      - '8095:80'
+    environment:
+      PMA_PORT: 3306
+      PMA_HOST: mifos21-db-server
+      UPLOAD_LIMIT: 1000000000
+    networks:
+      - mifos21-network
+
+#Docker Networks
+networks:
+  mifos21-network:
+    driver: bridge
+
+#Volumes
+volumes:
+  dbdata:
+    driver: local
