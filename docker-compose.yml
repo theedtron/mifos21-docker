@@ -12,8 +12,7 @@ services:
     networks:
       - mifos21-network
     depends_on:
-      mifos21-db-server:
-        condition: service_healthy
+      - mifos21-db-server
     healthcheck:
       test: curl -kfsS https://127.0.0.1:8443 | grep 'Tomcat' | wc -l 
       interval: 5s
