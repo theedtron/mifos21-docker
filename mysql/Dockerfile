@@ -1,5 +1,11 @@
 FROM mysql:8.0.3
 
+# Update GPG keys for MySQL repository
+RUN  apt-key adv --keyserver keys.gnupg.net --recv-keys 8C718D3B5072E1F5
+
+# Update GPG keys for Debian repository
+RUN apt-key adv --keyserver keys.gnupg.net --recv-keys 648ACFD622F3D138
+
 # Install required packages
 RUN apt-get update && \
     apt-get install -y wget unzip && \
