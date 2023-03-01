@@ -1,4 +1,4 @@
-FROM FROM tomcat:10.1.6-jdk17-temurin-jammy
+FROM tomcat:10.1.6-jdk17-temurin-jammy
 
 USER root
 
