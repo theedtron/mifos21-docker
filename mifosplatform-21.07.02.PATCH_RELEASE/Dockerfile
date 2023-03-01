@@ -1,36 +1,36 @@
-FROM tomcat:11.0.0-M3-jdk17-temurin-jammy
+FROM FROM tomcat:10.1.6-jdk17-temurin-jammy
 
-# Install packages and dependencies
-RUN apt update && apt install -y --force-yes mysql-client curl && rm -rf /var/lib/apt/lists/*
+USER root
 
-# Set Tomcat environment variables
-ENV CATALINA_HOME=/usr/local/tomcat
-ENV PATH=$CATALINA_HOME/bin:$PATH
+RUN apk add --no-cache mysql-client curl
 
-# Copy configuration files and web applications
-COPY server.xml $CATALINA_HOME/conf/
-COPY setenv.sh $CATALINA_HOME/bin/
-COPY fineract-provider.war $CATALINA_HOME/webapps/
-COPY apps/community-app/ $CATALINA_HOME/webapps/ROOT/
-COPY api-docs $CATALINA_HOME/webapps/
-COPY pentahoReports /root/.mifosx/pentahoReports/
-COPY pentaholibs $CATALINA_HOME/webapps/WEB-INF/lib/
-COPY libs $CATALINA_HOME/lib/
+COPY ./server.xml /usr/local/tomcat/conf/server.xml
 
-# Set up entrypoint script
-ADD entrypoint.sh /entrypoint.sh
+COPY ./setenv.sh /usr/local/tomcat/bin/setenv.sh
+
+COPY ./fineract-provider.war /usr/local/tomcat/webapps/fineract-provider.war
+
+COPY ./apps/community-app/ /usr/local/tomcat/webapps/ROOT
+
+COPY ./api-docs /usr/local/tomcat/webapps/api-docs
+
+#COPY ./test/ /usr/local/tomcat/webapps/test/
+
+RUN mkdir -p /root/.mifosx
+
+COPY ./pentahoReports /root/.mifosx/pentahoReports
+
+COPY ./pentaholibs /usr/local/tomcat/webapps/WEB-INF/lib
+
+COPY ./libs /usr/local/tomcat/lib
+
+ADD ./entrypoint.sh /entrypoint.sh
+
 RUN chmod +x /entrypoint.sh
 
-# Create directories and set permissions
-RUN mkdir -p /root/.mifosx \
-  && mkdir -p /run/mysqld \
-  && chown 999 /run/mysqld \
-  && chown -R 999 $CATALINA_HOME
+RUN mkdir -p /run/mysqld \
+	&& chown 999 /run/mysqld
 
-# Start Tomcat and run entrypoint script
-USER 999
-WORKDIR $CATALINA_HOME
-EXPOSE 8080
-CMD ["catalina.sh", "run"]
-ENTRYPOINT ["/entrypoint.sh"]
+RUN ls -lrt /usr/local/tomcat/webapps/
 
+ENTRYPOINT ["sh","/entrypoint.sh"]
