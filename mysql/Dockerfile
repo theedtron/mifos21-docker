@@ -1,9 +1,9 @@
 FROM mysql:latest
 
 # Install required packages
-RUN apt update && \
-    apt install -y wget unzip && \
-    apt clean && \
+RUN apt-get update && \
+    apt-get install -y wget unzip && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Set up the database initialization scripts
