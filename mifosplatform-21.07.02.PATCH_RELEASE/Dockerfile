@@ -2,7 +2,7 @@ FROM tomcat:10.1.6-jdk17-temurin-jammy
 
 USER root
 
-RUN apt add --no-cache mysql-client curl
+RUN apt update && apt install -y  mysql-client curl && rm -rf /var/lib/apt/lists/*
 
 COPY ./server.xml /usr/local/tomcat/conf/server.xml
 
