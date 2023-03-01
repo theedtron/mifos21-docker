@@ -1,4 +1,4 @@
-FROM 11.0.0-M3-jdk17-temurin-jammy:latest
+FROM tomcat:11.0.0-M3-jdk17-temurin-jammy
 
 # Install packages and dependencies
 RUN apt update && apt install -y --force-yes mysql-client curl && rm -rf /var/lib/apt/lists/*
