@@ -1,4 +1,4 @@
-FROM mysql:8.0.3
+FROM mysql:latest
 
 # Install required packages
 RUN apt update && \
