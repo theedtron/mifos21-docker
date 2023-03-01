@@ -1,4 +1,4 @@
-FROM 9.0.72-jdk11-temurin-jammy:latest
+FROM 11.0.0-M3-jdk17-temurin-jammy:latest
 
 # Update GPG keys for MySQL repository
 RUN  apt-key adv --keyserver keys.gnupg.net --recv-keys 8C718D3B5072E1F5
