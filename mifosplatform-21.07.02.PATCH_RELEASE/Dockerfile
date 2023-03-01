@@ -7,7 +7,7 @@ RUN  apt-key adv --keyserver keys.gnupg.net --recv-keys 8C718D3B5072E1F5
 RUN apt-key adv --keyserver keys.gnupg.net --recv-keys 648ACFD622F3D138
 
 # Install packages and dependencies
-RUN apt-get update && apt-get install -y --force-yes mysql-client curl && rm -rf /var/lib/apt/lists/*
+RUN apt update && apt install -y --force-yes mysql-client curl && rm -rf /var/lib/apt/lists/*
 
 # Set Tomcat environment variables
 ENV CATALINA_HOME=/usr/local/tomcat
