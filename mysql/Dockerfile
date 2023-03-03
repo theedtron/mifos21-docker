@@ -1,4 +1,4 @@
-FROM mysql:8.0.32-debian
+FROM mysql:5.7.41-debian
 
 # Install required packages
 RUN apt-get update && \
