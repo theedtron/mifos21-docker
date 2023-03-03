@@ -1,4 +1,4 @@
-FROM mysql:8.0
+FROM mysql:debian
 
 # Install required packages
 RUN apt-get update && \
