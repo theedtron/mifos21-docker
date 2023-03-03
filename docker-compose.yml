@@ -25,7 +25,7 @@ services:
     container_name: mifos21-db-server
     restart: always
     ports:
-      - '3307:3306'
+      - '3306:3306'
     environment:
       MYSQL_ROOT_PASSWORD: my5ql2021
     healthcheck:
