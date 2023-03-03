@@ -1,4 +1,4 @@
-FROM mysql:5.7-debian
+FROM mysql:5.7.22
 
 # Install required packages
 RUN apt-get update && \
